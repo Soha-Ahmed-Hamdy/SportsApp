@@ -13,8 +13,9 @@ class PlayerInfoViewController: UIViewController {
     var player : Players?
     var sportType : String?
     var coreViewModel : CoreViewModel!
+    var favObjects : [NSManagedObject]? = []
 
-    
+    @IBOutlet weak var favButtons: UIButton!
     @IBOutlet weak var playerAge: UILabel!
     @IBOutlet weak var playerCoun: UILabel!
     @IBOutlet weak var playerImage: UIImageView!
@@ -47,12 +48,26 @@ class PlayerInfoViewController: UIViewController {
 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        if (coreViewModel.checkIfInserted(favId: (player?.playerKey)!)){
+            favButtons.tintColor = UIColor.red
+        }else{
+            favButtons.tintColor = UIColor(named: "bgColor")
+        }
+    }
+    
+    
     @IBAction func favButton(_ sender: Any) {
         
-        if (checkIfInserted(favId: (player?.playerKey)!)){
+        if (coreViewModel.checkIfInserted(favId: (player?.playerKey)!)){
             
-            let confirmAction = UIAlertAction(title: "OK", style: .default)
-            MakeAlert.displayAlert(title: "Saving!!", message: "This player is already in favourites", action: confirmAction, controller: self)
+//            let confirmAction = UIAlertAction(title: "OK", style: .default)
+//            MakeAlert.displayAlert(title: "Saving!!", message: "This player is already in favourites", action: confirmAction, controller: self)
+            
+            let confirmAction = UIAlertAction(title: "Delete", style: .default){ action in
+                self.deleteItemFromCore()
+            }
+            MakeAlert.displayAlert(title: "Warning!!", message: "Do you want to delete this Team?", action: confirmAction, controller: self)
             
         }else{
             
@@ -71,32 +86,31 @@ class PlayerInfoViewController: UIViewController {
                 }
             }
         }
-        
     }
+    
     
     
     func saveFavPlayer(){
-        
-            let name = player?.playerName
-            coreViewModel.insertIntoCore(favName: name ?? "", favId: (player?.playerKey)!, sportType: sportType!)
-            coreViewModel.getCore()
-
-        
-        
+        let name = player?.playerName
+        coreViewModel.insertIntoCore(favName: name ?? "", favId: (player?.playerKey)!, sportType: sportType!)
+        coreViewModel.getCore()
+        favButtons.tintColor = UIColor.red
     }
     
-    func checkIfInserted(favId : Int )-> Bool{
-        var result = false
-        var favourites : [NSManagedObject]?
-        favourites = FavouriteItem.coreDataObj.fetchFavItem()
-        favourites?.forEach{ data in
+    
+    func deleteItemFromCore(){
+        let playerId = self.player?.playerKey
+        favObjects = FavouriteItem.coreDataObj.fetchFavItem()
+        favObjects?.forEach{ data in
             let favouriteId = data.value(forKey: "favId") as! Int
-            if favouriteId == favId{
-                result = true
+            if favouriteId == playerId{
+                self.coreViewModel.deleteFromCore(favItem: data)
+                favButtons.tintColor = UIColor(named: "bgColor")
             }
         }
-        return result
     }
+    
+    
    
 
 }

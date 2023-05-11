@@ -301,6 +301,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="favButtons" destination="EAV-2V-85P" id="aMq-DG-54l"/>
                         <outlet property="imageDetails" destination="uJZ-Jg-lzY" id="dVt-mC-JQU"/>
                         <outlet property="nameDPlay" destination="VyV-Lo-p0g" id="efp-Ip-QSj"/>
                         <outlet property="tableView" destination="6xW-Bm-13o" id="9kx-2A-QBN"/>
@@ -784,6 +785,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="favButtons" destination="8k6-BU-W8f" id="6Cm-M1-o3o"/>
                         <outlet property="playerAge" destination="Z9a-E4-vKS" id="SSp-lN-pEZ"/>
                         <outlet property="playerCoun" destination="yzG-sz-qFN" id="r8u-dm-4A9"/>
                         <outlet property="playerImage" destination="5Nt-K9-7un" id="aNp-go-CQg"/>

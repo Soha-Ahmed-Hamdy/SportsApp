@@ -100,7 +100,6 @@ class FavViewController: UIViewController , UITableViewDataSource,UITableViewDel
     
     override func viewWillAppear(_ animated: Bool) {
 
-        
         favObjects = FavouriteItem.coreDataObj.fetchFavItem()
         tableView.reloadData()
         if (favObjects?.count == 0){

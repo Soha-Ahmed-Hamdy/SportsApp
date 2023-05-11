@@ -190,9 +190,7 @@ class EventViewController: UIViewController ,UICollectionViewDelegate , UICollec
             
         }
         
-        return cell
-
-        
+        return cell        
     }
     
     
@@ -232,7 +230,7 @@ class EventViewController: UIViewController ,UICollectionViewDelegate , UICollec
         
         //table disgn
         cell.layer.cornerRadius = 50.0
-        cell.layer.borderColor = UIColor(named: "recyclerColor")?.cgColor
+        cell.layer.borderColor = UIColor.gray.cgColor
         cell.layer.borderWidth = 2
         cell.clipsToBounds = true
         

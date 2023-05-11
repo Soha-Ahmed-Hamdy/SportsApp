@@ -33,6 +33,19 @@ class CoreViewModel{
         FavouriteItem.coreDataObj.deleteFav(itemFav: favItem)
     }
     
+    func checkIfInserted(favId : Int )-> Bool{
+        var result = false
+        var favourites : [NSManagedObject]?
+        favourites = FavouriteItem.coreDataObj.fetchFavItem()
+        favourites?.forEach{ data in
+            let favouriteId = data.value(forKey: "favId") as! Int
+            if favouriteId == favId{
+                result = true
+            }
+        }
+        return result
+    }
+    
     
     
 }
