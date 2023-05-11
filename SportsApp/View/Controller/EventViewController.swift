@@ -9,9 +9,11 @@ import UIKit
 
 class EventViewController: UIViewController ,UICollectionViewDelegate , UICollectionViewDataSource ,UICollectionViewDelegateFlowLayout,UITableViewDataSource,UITableViewDelegate{
     
+    
+    
+    @IBOutlet weak var noTeam: UILabel!
     @IBOutlet weak var collectinEvent: UICollectionView!
     @IBOutlet weak var collectionResult: UICollectionView!
-  
     @IBOutlet weak var tableView: UITableView!
     
     
@@ -32,11 +34,14 @@ class EventViewController: UIViewController ,UICollectionViewDelegate , UICollec
             return eventList?.result?.count ?? 1
         }else{
             if sportType == "tennis"{
+                if playersId?.count == 0{
+                    noTeam.text = "No Teams here"
+                }else{
+                    noTeam.text = ""
+                }
                 return playersId?.count ?? 0
-
             }else{
                 return teamsList?.result?.count ?? 0
-
             }
         }
     }
@@ -44,8 +49,6 @@ class EventViewController: UIViewController ,UICollectionViewDelegate , UICollec
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        
 
         if collectionView == collectinEvent{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "eventItem", for: indexPath) as! EventCollectionViewCell
@@ -159,10 +162,10 @@ class EventViewController: UIViewController ,UICollectionViewDelegate , UICollec
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "teamsItem", for: indexPath) as! TeamsCollectionViewCell
         
-        cell.layer.borderColor = UIColor.gray.cgColor
+        cell.layer.borderColor = UIColor(named: "recyclerColor")?.cgColor
         cell.layer.borderWidth = 2
-        cell.TeamImg.layer.cornerRadius = 62
-        cell.layer.cornerRadius = 62
+        cell.TeamImg.layer.cornerRadius = 58
+        cell.layer.cornerRadius = 58
         cell.contentMode = .scaleAspectFill
         cell.clipsToBounds = true
 
@@ -229,7 +232,7 @@ class EventViewController: UIViewController ,UICollectionViewDelegate , UICollec
         
         //table disgn
         cell.layer.cornerRadius = 50.0
-        cell.layer.borderColor = UIColor.gray.cgColor
+        cell.layer.borderColor = UIColor(named: "recyclerColor")?.cgColor
         cell.layer.borderWidth = 2
         cell.clipsToBounds = true
         
@@ -335,26 +338,19 @@ class EventViewController: UIViewController ,UICollectionViewDelegate , UICollec
                     
                     cell.firstTeam.text = latestList?.result?[indexPath.row].event_home_team
                     cell.secTeam.text = latestList?.result?[indexPath.row].event_away_team
-
-
                 }
                 cell.gameTime.text = latestList?.result?[indexPath.row].event_time
-                
-                
-                
             }
-            
-            
         }
-        
-    
         return cell
     }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var width , height : CGFloat?
         if collectionView == collectinEvent{
-            width = (collectionView.frame.size.width)
+            width = (collectionView.frame.size.width) - 20
             height = (collectionView.frame.size.height)
 
         }else if collectionView == collectionResult {
@@ -397,6 +393,7 @@ class EventViewController: UIViewController ,UICollectionViewDelegate , UICollec
         
         DispatchQueue.main.async {
             self.eventList = self.viewModel.VWResultEvent
+            self.title = "League Details"
             self.collectinEvent.reloadData()
             print("success event")
             
@@ -428,7 +425,7 @@ class EventViewController: UIViewController ,UICollectionViewDelegate , UICollec
             self.teamsList = self.viewModel.VWResultTeam
             self.collectionResult.reloadData()
             print("success in teams")
-
+        
         }
     }
     

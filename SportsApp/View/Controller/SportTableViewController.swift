@@ -24,8 +24,7 @@ class SportTableViewController: UITableViewController {
         viewModel.bindResultToViewController = {() in self.renderView()}
         
     }
-    
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let eventVC = self.storyboard?.instantiateViewController(withIdentifier: "EventViewController") as! EventViewController
         eventVC.sportType = sportType
@@ -81,26 +80,38 @@ class SportTableViewController: UITableViewController {
  
         }
     }
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        headerView.backgroundColor = view.backgroundColor
+        return headerView
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 12
+    }
     
     
     func handleCellSize(cell: SportsTableViewCell){
         //table seprator
-        cell.layer.borderColor = UIColor.white.cgColor
-        cell.layer.borderWidth = 8
+        //cell.layer.borderColor = UIColor(named: "bgColor")?.cgColor
+        //cell.layer.borderWidth = 8
+        
   
         // cell radius
-        cell.layer.cornerRadius = 60.0
+        cell.viewBack.layer.cornerRadius = 50.0
         cell.clipsToBounds = true
-        cell.imageCell.layer.cornerRadius = 50.0
+        cell.imageCell.layer.cornerRadius = 45.0
         cell.imageCell.contentMode = .scaleAspectFill
-        cell.imageCell.layer.borderWidth = 1
-        cell.imageCell.layer.borderColor = UIColor.gray.cgColor
+        cell.imageCell.layer.borderWidth = 2
+        cell.imageCell.layer.borderColor = UIColor(named: "bgColor")?.cgColor
         cell.imageCell.clipsToBounds = true
+        cell.viewBack.clipsToBounds = true
     }
     
     func renderView(){
         DispatchQueue.main.async {
             self.sportsList = self.viewModel.VWResult
+            self.title = "Leagues"
             self.tableView.reloadData()
             print("success")
 

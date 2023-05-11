@@ -11,9 +11,13 @@ class DetailsTableViewCell: UITableViewCell {
 
     
     
+    @IBOutlet weak var viewBack: GradientView!
     @IBOutlet weak var labelDNum: UILabel!
     @IBOutlet weak var labelDName: UILabel!
     @IBOutlet weak var imageDCell: UIImageView!
+    
+    
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()

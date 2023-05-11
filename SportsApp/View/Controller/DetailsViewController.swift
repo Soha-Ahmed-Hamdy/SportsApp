@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class DetailsViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate{
     var team : TeamsResult?
@@ -30,16 +31,15 @@ class DetailsViewController: UIViewController ,UITableViewDataSource,UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "detailsCell", for: indexPath) as! DetailsTableViewCell
         
-        //table seprator
-        cell.layer.borderColor = UIColor.white.cgColor
-        cell.layer.borderWidth = 8
-
+        
         // cell radius
-        cell.layer.cornerRadius = 50.0
+        cell.viewBack.layer.cornerRadius = 40.0
         cell.clipsToBounds = true
-        cell.imageDCell?.layer.cornerRadius = 45.0
+        cell.imageDCell?.layer.cornerRadius = 35.0
         cell.imageDCell?.contentMode = .scaleAspectFill
         cell.imageDCell?.clipsToBounds = true
+        cell.viewBack.clipsToBounds = true
+
 
         //assign values to cell
         var unwrappedImage : String = ""
@@ -56,6 +56,16 @@ class DetailsViewController: UIViewController ,UITableViewDataSource,UITableView
         return cell
     }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        headerView.backgroundColor = view.backgroundColor
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 12
+    }
+    
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -67,10 +77,12 @@ class DetailsViewController: UIViewController ,UITableViewDataSource,UITableView
     }
     
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         coreViewModel = CoreViewModel()
+        self.title = "Team Details"
     
         //set Values
         var unwrappedImage : String = ""
@@ -91,14 +103,27 @@ class DetailsViewController: UIViewController ,UITableViewDataSource,UITableView
         
     }
     
+    
+    
 
     @IBAction func favButton(_ sender: Any) {
         
-        let confirmAction = UIAlertAction(title: "Save", style: .default){ action in
-            self.insertItemToFavourites()
+        if (checkIfInserted(favId: (team?.team_key)!)){
+            
+            let confirmAction = UIAlertAction(title: "OK", style: .default)
+            MakeAlert.displayAlert(title: "Saving!!", message: "This Team is already in favourites", action: confirmAction, controller: self)
+            
+        }else{
+            
+            
+            let confirmAction = UIAlertAction(title: "Save", style: .default){ action in
+                self.insertItemToFavourites()
+            }
+            MakeAlert.displayAlert(title: "Saving!!", message: "Do you want to save this Team to favourite?", action: confirmAction, controller: self)
         }
-        MakeAlert.displayAlert(title: "Saving!!", message: "Do you want to save this Team to favourite?", action: confirmAction, controller: self)
     }
+    
+    
     
     
     func insertItemToFavourites(){
@@ -107,5 +132,19 @@ class DetailsViewController: UIViewController ,UITableViewDataSource,UITableView
         coreViewModel.insertIntoCore(favName: name ?? "", favId: (team?.team_key)!, sportType: sportType!)
         coreViewModel.getCore()
     }
+    
+    func checkIfInserted(favId : Int )-> Bool{
+        var result = false
+        var favourites : [NSManagedObject]?
+        favourites = FavouriteItem.coreDataObj.fetchFavItem()
+        favourites?.forEach{ data in
+            let favouriteId = data.value(forKey: "favId") as! Int
+            if favouriteId == favId{
+                result = true
+            }
+        }
+        return result
+    }
+    
     
 }

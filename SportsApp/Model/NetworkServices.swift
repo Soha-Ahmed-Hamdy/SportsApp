@@ -33,7 +33,7 @@ class NetworkServices : NetworkServicesProtocol{
         let task = session.dataTask(with: request){ data ,response , error in
             do{
                 print("dataFav\(String(describing: data))")
-                let result = try JSONDecoder().decode(Teams.self, from: data!)
+                let result = try JSONDecoder().decode(Teams.self, from: data ?? Data())
                 print("resultFav\(result)")
                 compilitionHandler(result)
                 print("done in teams fav")
@@ -61,7 +61,7 @@ class NetworkServices : NetworkServicesProtocol{
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: request){ data ,response , error in
             do{
-                let result = try JSONDecoder().decode(TennisPlayer.self, from: data!)
+                let result = try JSONDecoder().decode(TennisPlayer.self, from: data ?? Data())
                 compilitionHandler(result)
                 print(result.result?[0].playerName ?? "count of players is nil")
                 print("done in player")
@@ -91,7 +91,7 @@ class NetworkServices : NetworkServicesProtocol{
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: request){ data ,response , error in
             do{
-                let result = try JSONDecoder().decode(Teams.self, from: data!)
+                let result = try JSONDecoder().decode(Teams.self, from: data ?? Data())
                 compilitionHandler(result)
                 print("done in teams")
 
@@ -116,7 +116,7 @@ class NetworkServices : NetworkServicesProtocol{
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: request){ data ,response , error in
             do{
-                let result = try JSONDecoder().decode(Livescore.self, from: data!)
+                let result = try JSONDecoder().decode(Livescore.self, from: data ?? Data())
                 compilitionHandler(result)
                 print("done in live")
 
@@ -143,7 +143,7 @@ class NetworkServices : NetworkServicesProtocol{
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: request){ data ,response , error in
             do{
-                let result = try JSONDecoder().decode(Fixtures.self, from: data!)
+                let result = try JSONDecoder().decode(Fixtures.self, from: data ?? Data())
                 compilitionHandler(result)
                 print("done in event")
 
@@ -170,7 +170,7 @@ class NetworkServices : NetworkServicesProtocol{
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: request){ data ,response , error in
             do{
-                let result = try JSONDecoder().decode(Root.self, from: data!)
+                let result = try JSONDecoder().decode(Root.self, from: data ?? Data())
                 compilitionHandler(result)
             }catch let error{
                 print(error.localizedDescription)

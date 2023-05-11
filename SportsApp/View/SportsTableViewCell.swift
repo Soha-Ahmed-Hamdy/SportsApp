@@ -12,6 +12,7 @@ class SportsTableViewCell: UITableViewCell {
     @IBOutlet weak var imageCell: UIImageView!
     @IBOutlet weak var labelCell: UILabel!
     
+    @IBOutlet weak var viewBack: GradientView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

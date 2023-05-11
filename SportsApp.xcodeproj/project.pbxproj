@@ -24,6 +24,7 @@
 		CF877AEA4093831F00808D79 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF877AE94093831F00808D79 /* CollectionViewCell.swift */; };
 		CF877AEC4093831F00808D79 /* SportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF877AEB4093831F00808D79 /* SportTableViewController.swift */; };
 		CF877AEE4093831F00808D79 /* SportsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF877AED4093831F00808D79 /* SportsTableViewCell.swift */; };
+		CF8A69292A0A62980058491D /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8A69282A0A62980058491D /* GradientView.swift */; };
 		CF8D6ECD2A03A770008E2934 /* SportItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D6ECC2A03A770008E2934 /* SportItem.swift */; };
 		CF8D6ECF2A03A9AC008E2934 /* NetworkServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D6ECE2A03A9AC008E2934 /* NetworkServices.swift */; };
 		CF8D6ED12A04086B008E2934 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8D6ED02A04086B008E2934 /* EventViewController.swift */; };
@@ -76,6 +77,7 @@
 		CF877AE94093831F00808D79 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		CF877AEB4093831F00808D79 /* SportTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportTableViewController.swift; sourceTree = "<group>"; };
 		CF877AED4093831F00808D79 /* SportsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsTableViewCell.swift; sourceTree = "<group>"; };
+		CF8A69282A0A62980058491D /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		CF8D6ECC2A03A770008E2934 /* SportItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportItem.swift; sourceTree = "<group>"; };
 		CF8D6ECE2A03A9AC008E2934 /* NetworkServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServices.swift; sourceTree = "<group>"; };
 		CF8D6ED02A04086B008E2934 /* EventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				CF8D6ED62A040D40008E2934 /* ResultTableViewCell.swift */,
 				CF5D41CF2A0570F200FFA0A0 /* FavTableViewCell.swift */,
 				CF8FDEAD2A07E12F0060AD7A /* MakeAlert.swift */,
+				CF8A69282A0A62980058491D /* GradientView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -401,6 +404,7 @@
 				CF8FDEB32A080C190060AD7A /* CoreViewModel.swift in Sources */,
 				CF8FDEAE2A07E12F0060AD7A /* MakeAlert.swift in Sources */,
 				CF85FD7029FFE60200362B53 /* SplashController.swift in Sources */,
+				CF8A69292A0A62980058491D /* GradientView.swift in Sources */,
 				CF877AE840937E4600808D79 /* MainScreenViewController.swift in Sources */,
 				CF9324172A03936100371AE7 /* DetailsViewController.swift in Sources */,
 			);

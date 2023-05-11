@@ -14,6 +14,10 @@ class FavTableViewCell: UITableViewCell {
     
     
     
+    
+    @IBOutlet weak var viewBack: GradientView!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

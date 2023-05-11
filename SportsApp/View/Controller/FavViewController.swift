@@ -7,13 +7,13 @@
 
 import UIKit
 import CoreData
+import SystemConfiguration
 
 class FavViewController: UIViewController , UITableViewDataSource,UITableViewDelegate{
     
     
     @IBOutlet weak var tableView: UITableView!
-    
-    
+    @IBOutlet weak var noFav: UILabel!
     var favItems : [String]?
     var tableData : [FavouriteItem]?
     var context: NSManagedObjectContext?
@@ -34,37 +34,47 @@ class FavViewController: UIViewController , UITableViewDataSource,UITableViewDel
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "favCell", for: indexPath) as! FavTableViewCell
-        
-        //table seprator
-        cell.layer.borderColor = UIColor.white.cgColor
-        cell.layer.borderWidth = 2
-        
-        // cell radius
-        cell.layer.cornerRadius = 50.0
-        cell.clipsToBounds = true
-        
+            
         //assign values
         cell.favItemName.text = (favObjects?[indexPath.row].value(forKey: "favName") as! String)
         print(favObjects?[indexPath.row].value(forKey: "favName") as! String)
+            
+        
+        // cell radius
+        cell.viewBack.layer.cornerRadius = 40.0
+        cell.viewBack.clipsToBounds = true
+        
+        
         
         return cell
     }
     
     
     
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if (favObjects?[indexPath.row].value(forKey: "sportType")) as! String == "tennis"{
-            
-            viewModel.getPlayer(sportType: (self.favObjects?[indexPath.row].value(forKey: "sportType"))! as! String, playerId: favObjects?[indexPath.row].value(forKey: "favId") as! Int)
-            viewModel.bindResultToViewControllerPlayer = {() in self.renderView(index: indexPath.row)}
+        if(isConnectedToNetwork()){
+            if (favObjects?[indexPath.row].value(forKey: "sportType")) as! String == "tennis"{
+                
+                viewModel.getPlayer(sportType: (self.favObjects?[indexPath.row].value(forKey: "sportType"))! as! String, playerId: favObjects?[indexPath.row].value(forKey: "favId") as! Int)
+                viewModel.bindResultToViewControllerPlayer = {() in self.renderView(index: indexPath.row)}
 
-        }else if (favObjects?[indexPath.row].value(forKey: "sportType")) as! String == "football"{
+            }else if (favObjects?[indexPath.row].value(forKey: "sportType")) as! String == "football"{
+                
+                viewModel.getTeamfav(sportType: (self.favObjects?[indexPath.row].value(forKey: "sportType"))! as! String, teamId: favObjects?[indexPath.row].value(forKey: "favId") as! Int)
+                viewModel.bindResultToViewControllerTeamFav = {() in self.renderView(index: indexPath.row)}
+                
+            }
             
-            viewModel.getTeamfav(sportType: (self.favObjects?[indexPath.row].value(forKey: "sportType"))! as! String, teamId: favObjects?[indexPath.row].value(forKey: "favId") as! Int)
-            viewModel.bindResultToViewControllerTeamFav = {() in self.renderView(index: indexPath.row)}
+        }else{
+            
+            let confirmAction = UIAlertAction(title: "OK", style: .default)
+            MakeAlert.displayAlert(title: "Warning!!", message: "Check Network connection.. ", action: confirmAction, controller: self)
             
         }
+        
+        
     }
     
     
@@ -82,17 +92,23 @@ class FavViewController: UIViewController , UITableViewDataSource,UITableViewDel
     //specifiying cell size
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
         let width = UIScreen.main.bounds.width
         let height = 100
         return CGFloat( signOf: width , magnitudeOf: CGFloat(height))
-        
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
+
+        
         favObjects = FavouriteItem.coreDataObj.fetchFavItem()
-        print(favObjects![0].value(forKey: "favName")!)
         tableView.reloadData()
+        if (favObjects?.count == 0){
+            noFav.text = "No Favourites yet"
+            print("fav nil")
+        }else{
+            noFav.text = ""
+        }
     }
     
     //deleting item from core data
@@ -103,11 +119,19 @@ class FavViewController: UIViewController , UITableViewDataSource,UITableViewDel
         coreViewModel.getCore()
         coreViewModel.bindResultToViewControllerGet = {() in self.renderView()}
         
+        if (favObjects?.count == 0){
+            noFav.text = "No Favourites yet"
+            print("fav nil")
+        }else{
+            noFav.text = ""
+        }
+        
     }
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Favourites"
         viewModel = ViewModel()
         coreViewModel = CoreViewModel()
         coreViewModel.getCore()
@@ -132,6 +156,7 @@ class FavViewController: UIViewController , UITableViewDataSource,UITableViewDel
                 
                 let detailsVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailsViewController") as! DetailsViewController
                 detailsVC.team = self.viewModel.VWResultTeamFav?.result![0]
+                detailsVC.sportType = "football"
                 detailsVC.placeHolderD = "foot"
                 self.navigationController?.pushViewController(detailsVC, animated: true)
                     
@@ -139,10 +164,33 @@ class FavViewController: UIViewController , UITableViewDataSource,UITableViewDel
         }
     }
     
+    
+    
     func renderView(){
         favObjects = coreViewModel.VMResultGet
         self.tableView.reloadData()
     }
+    
+    func isConnectedToNetwork() -> Bool {
+            var zeroAddress = sockaddr_in()
+            zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
+            zeroAddress.sin_family = sa_family_t(AF_INET)
+            guard let defaultRouteReachability = withUnsafePointer(to: &zeroAddress, {
+                $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+                    SCNetworkReachabilityCreateWithAddress(nil, $0)
+                }
+            }) else {
+                return false
+            }
+            var flags: SCNetworkReachabilityFlags = []
+            if !SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags) {
+                return false
+            }
+            let isReachable = flags.contains(.reachable)
+            let needsConnection = flags.contains(.connectionRequired)
+            return (isReachable && !needsConnection)
+        }
+
 
     
     

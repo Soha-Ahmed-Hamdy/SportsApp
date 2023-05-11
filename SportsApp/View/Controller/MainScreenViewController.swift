@@ -62,8 +62,8 @@ class MainScreenViewController: UICollectionViewController , UICollectionViewDel
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = UIScreen.main.bounds.width
-        let height = UIScreen.main.bounds.height / 3
+        let width = (UIScreen.main.bounds.width) - 50
+        let height = (UIScreen.main.bounds.height / 3)
         
         return CGSize(width: width / 2, height: height)
     }
@@ -104,9 +104,9 @@ class MainScreenViewController: UICollectionViewController , UICollectionViewDel
     
     func handleCellSize(cell :CollectionViewCell){
         // Configure the cell
-        cell.layer.cornerRadius = 70.0
+        cell.layer.cornerRadius = 25.0
         cell.clipsToBounds = true
-        cell.imgV.layer.cornerRadius = 50.0
+        cell.imgV.layer.cornerRadius = 20.0
         cell.imgV.contentMode = .scaleAspectFill
         cell.imgV.clipsToBounds = true
         

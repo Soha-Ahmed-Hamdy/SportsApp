@@ -18,7 +18,7 @@ class MockNetworkService{
     
     
     
-    static let mockLivescore = ""
+    static let mockLivescore = "{\"success\":1,\"result\":[{\"event_key\":1183019,\"event_date\":\"2023-05-08\",\"event_time\":\"01:20\",\"event_home_team\":\"Millonarios\",\"home_team_key\":2273,\"event_away_team\":\"Santa Fe\",\"away_team_key\":2269,\"event_halftime_result\":\"1 - 0\",\"event_final_result\":\"1 - 0\",\"event_ft_result\":\"\",\"event_penalty_result\":\"\",\"event_status\":\"Half Time\",\"country_name\":\"Colombia\",\"league_name\":\"Primera A - Apertura\",\"league_key\":120,\"league_round\":\"Round 18\",\"league_season\":\"2023\",\"event_live\":\"1\",\"event_stadium\":\"Estadio Nemesio Camacho El Campin, Bogota\",\"event_referee\":\"Wilmar Roldan, Colombia\",\"home_team_logo\":\" \",\"away_team_logo\":\" \",\"event_country_key\":34,\"league_logo\":\" \",\"country_logo\":\" \",\"event_home_formation\":\"4-2-3-1\",\"event_away_formation\":\"4-2-3-1\",\"fk_stage_key\":813,\"stage_name\":\"Apertura\",\"league_group\":null}]}"
     
     
     
